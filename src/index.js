@@ -1,17 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import { render } from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import 'normalize.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { GlobalStyles } from './global-styles';
+import { Firebase, firebase } from './lib/firabase.prod';
+import { FirebaseContext } from './context/firebase';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+render(
+  <>
+    <FirebaseContext.Provider value={{ Firebase, firebase }}>
+      <GlobalStyles />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </FirebaseContext.Provider>
+  </>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
