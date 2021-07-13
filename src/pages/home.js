@@ -138,7 +138,7 @@ export default function Home({ user, setUser }) {
                   <Post.Date>
                     {(post.created && convertDate(post.created)) || <br />}
                   </Post.Date>
-                  {post.text?.split('\n\n').map((p) => (
+                  {post.text?.split('\n').map((p) => (
                     <Post.Text key={p}>{p}</Post.Text>
                   ))}
                   <Post.Likes
