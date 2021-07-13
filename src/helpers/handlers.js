@@ -5,16 +5,12 @@ export const likeHandler = ({ user, post }) => {
     firebase
       .firestore()
       .collection('posts')
-      .doc(post.uid)
-      .collection('userPosts')
       .doc(post.id)
       .update({ likes: Firebase.firestore.FieldValue.arrayUnion(user.uid) });
   } else {
     firebase
       .firestore()
       .collection('posts')
-      .doc(post.uid)
-      .collection('userPosts')
       .doc(post.id)
       .update({ likes: Firebase.firestore.FieldValue.arrayRemove(user.uid) });
   }
