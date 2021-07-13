@@ -6,3 +6,4 @@ export { default as Section } from './section';
 export { default as Profile } from './profile';
 export { default as Post } from './post';
 export { default as Popup } from './popup';
+export { default as Loader } from './loader';

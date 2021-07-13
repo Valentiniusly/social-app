@@ -33,23 +33,28 @@ export const Container = styled.div`
 
 export const Picture = styled.div`
   height: 8.75em;
-  width: 8.75em;
+  min-width: 8.75em;
+  flex-basis: 8.75em;
   border-radius: 50%;
   margin: 0.5em 1.25em 0.5em 1.25em;
   box-sizing: border-box;
 
   img {
     height: 100%;
+    width: 100%;
+    object-fit: cover;
     border-radius: 50%;
   }
 
   @media (max-width: 1200px) {
     height: 7.5em;
-    width: 7.5em;
+    min-width: 7.5em;
+    flex-basis: 7.5em;
   }
   @media (max-width: 500px) {
     height: 2.5em;
-    width: 2.5em;
+    min-width: 2.5em;
+    flex-basis: 2.5em;
     margin-top: 1em;
   }
 `;
@@ -60,6 +65,7 @@ export const Content = styled.div`
   padding: 1.25em 1.7em 2.5em 0;
   box-sizing: border-box;
   position: relative;
+  word-break: break-all;
 
   p {
     margin-top: 0.3em;
@@ -110,6 +116,7 @@ export const Date = styled.p`
 
 export const Text = styled.p`
   padding-top: 0.5em;
+  word-wrap: break-all;
 
   @media (max-width: 500px) {
     ${({ noName }) => (noName ? 'padding-top: 15px;' : null)}

@@ -19,7 +19,8 @@ export const Container = styled.button`
     opacity: 0.7;
   }
 
-  &:not(:disabled):hover {
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
     box-shadow: 0 4px 12px -5px #000;
     transform: scale(1.05);
   }

@@ -9,7 +9,7 @@ export function convertDate(time) {
   });
 }
 
-export async function fetchUserData({ uid }) {
+export function fetchUserData({ uid }) {
   return firebase
     .firestore()
     .collection('users')
@@ -22,32 +22,23 @@ export function fetchAllPosts() {
   return firebase.firestore().collection('posts').orderBy('created', 'desc');
 }
 
-export const fetchUserPosts = ({ setPosts, uid }) => {
-  const unsubscribe = firebase
-    .firestore()
-    .collection('posts')
-    .where('uid', '==', uid)
-    .onSnapshot((userPosts) => {
-      userPosts.docChanges().forEach((change) => {
-        if (change.type === 'removed') {
-          setPosts((prevState) => {
-            const newState = { ...prevState };
-            delete newState[change.doc.id];
-            return newState;
-          });
-        }
-      });
-      userPosts.docs.forEach((post) => {
-        const data = post.data();
-        setPosts((prev) => ({
-          ...prev,
-          [post.id]: {
-            ...data,
-            id: post.id,
-          },
-        }));
-      });
-    });
+export function fetchUserPosts({ uid }) {
+  return firebase.firestore().collection('posts').where('uid', '==', uid);
+}
 
-  return () => unsubscribe();
-};
+export function getAllAvatarUrls({ setUrls }) {
+  const unsub = firebase
+    .firestore()
+    .collection('users')
+    .onSnapshot((users) =>
+      users.forEach((item) => {
+        setUrls((prevState) => {
+          const newState = { ...prevState };
+          newState[item.data().uid] = item.data().avatar;
+          return newState;
+        });
+      })
+    );
+
+  return () => unsub();
+}

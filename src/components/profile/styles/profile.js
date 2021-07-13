@@ -35,7 +35,9 @@ export const Container = styled.div`
 `;
 
 export const Picture = styled.img`
-  width: 60%;
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
   max-width: 160px;
   margin-bottom: 0.5em;
   border-radius: 50%;

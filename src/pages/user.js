@@ -4,6 +4,7 @@ import { Section, Profile, Separator, Post } from '../components';
 import { fetchUserData, convertDate, fetchUserPosts } from '../helpers/utils';
 import { FirebaseContext } from '../context/firebase';
 import { likeHandler } from '../helpers/handlers';
+import { usePosts } from '../hooks';
 
 export default function User({ authUser }) {
   const { firebase, Firebase } = useContext(FirebaseContext);
@@ -13,26 +14,29 @@ export default function User({ authUser }) {
 
   useEffect(() => {
     fetchUserData({ firebase, uid }).then((data) => setUser(data));
-    const unsubscribe = fetchUserPosts({ firebase, setPosts, uid });
+    const reqPosts = fetchUserPosts({ uid });
+    const unsubscribe = usePosts({ reqPosts, setPosts });
     return () => unsubscribe();
   }, []);
 
   return (
     <Separator reverse>
       <Section gridArea="aside">
-        <Profile>
-          <Profile.Picture src="https://www.pcfix.lt/wp-content/uploads/2019/10/default-user-image.png" />
-          <Profile.Name>{user?.firstName || <br />}</Profile.Name>
-          <Profile.Status>{user?.status}</Profile.Status>
-          <Profile.Location>{user?.location}</Profile.Location>
-          <Profile.Link href={user?.website} target="_blank">
-            Website
-          </Profile.Link>
-          <Profile.Date>
-            Joined&nbsp;
-            {user && convertDate(user.created)}
-          </Profile.Date>
-        </Profile>
+        {user && (
+          <Profile>
+            <Profile.Picture src={user.avatar} />
+            <Profile.Name>{user?.firstName || <br />}</Profile.Name>
+            <Profile.Status>{user?.status}</Profile.Status>
+            <Profile.Location>{user?.location}</Profile.Location>
+            <Profile.Link href={user?.website} target="_blank">
+              Website
+            </Profile.Link>
+            <Profile.Date>
+              Joined&nbsp;
+              {user && convertDate(user.created)}
+            </Profile.Date>
+          </Profile>
+        )}
       </Section>
 
       <Section gridArea="content">

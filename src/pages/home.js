@@ -7,9 +7,15 @@ import {
   Post,
   Popup,
   Form,
+  Loader,
 } from '../components';
 import { FirebaseContext } from '../context/firebase';
-import { convertDate, fetchUserData, fetchAllPosts } from '../helpers/utils';
+import {
+  convertDate,
+  fetchUserData,
+  fetchAllPosts,
+  getAllAvatarUrls,
+} from '../helpers/utils';
 import { likeHandler, removePostHandler } from '../helpers/handlers';
 import { usePosts } from '../hooks';
 
@@ -19,11 +25,14 @@ export default function Home({ user, setUser }) {
   const [postPopup, setPostPopup] = useState(false);
   const [textarea, setTextarea] = useState('');
   const [error, setError] = useState();
-  const [name, setName] = useState(user?.firstName);
-  const [status, setStatus] = useState(user?.status);
-  const [location, setLocation] = useState(user?.location);
-  const [website, setWebsite] = useState(user?.website);
-  const [posts, setPosts] = useState({});
+  const [name, setName] = useState(user.firstName);
+  const [status, setStatus] = useState(user.status);
+  const [location, setLocation] = useState(user.location);
+  const [website, setWebsite] = useState(user.website);
+  const [posts, setPosts] = useState();
+  const [fileUrl, setFileUrl] = useState(null);
+  const [btnDisable, setBtnDisable] = useState(false);
+  const [urls, setUrls] = useState();
 
   const signOutHandler = () => {
     firebase.auth().signOut();
@@ -43,14 +52,26 @@ export default function Home({ user, setUser }) {
         status,
         location,
         website,
+        avatar: fileUrl || user.avatar,
       })
       .then(() => fetchUserData({ firebase, uid: user.uid }))
       .then((data) => {
         setUser(data);
         localStorage.setItem('authUser', JSON.stringify(data));
         setEditPopup(false);
+        setBtnDisable(false);
+        setFileUrl(null);
       })
       .catch((err) => setError(err));
+  };
+
+  const onFileChange = async (e) => {
+    setBtnDisable(true);
+    const file = e.target.files[0];
+    const storageRef = firebase.storage().ref();
+    const fileRef = storageRef.child(file.name);
+    await fileRef.put(file);
+    setFileUrl(await fileRef.getDownloadURL());
   };
 
   const addPostHandler = (e) => {
@@ -75,9 +96,13 @@ export default function Home({ user, setUser }) {
   };
 
   useEffect(() => {
-    const allPosts = fetchAllPosts();
-    const unsubscribe = usePosts({ allPosts, setPosts });
-    return () => unsubscribe();
+    const unsub = getAllAvatarUrls({ setUrls });
+    const reqPosts = fetchAllPosts();
+    const unsubscribe = usePosts({ reqPosts, setPosts });
+    return () => {
+      unsubscribe();
+      unsub();
+    };
   }, []);
 
   return (
@@ -85,11 +110,11 @@ export default function Home({ user, setUser }) {
       <Separator>
         <Section gridArea="aside">
           <Profile>
-            <Profile.Picture src="https://www.pcfix.lt/wp-content/uploads/2019/10/default-user-image.png" />
-            <Profile.Name>{user?.firstName || <br />}</Profile.Name>
-            <Profile.Status>{user?.status || <br />}</Profile.Status>
-            <Profile.Location>{user?.location || <br />}</Profile.Location>
-            <Profile.Link href={user?.website} target="_blank">
+            <Profile.Picture src={user.avatar} />
+            <Profile.Name>{user.firstName || <br />}</Profile.Name>
+            <Profile.Status>{user.status || <br />}</Profile.Status>
+            <Profile.Location>{user.location || <br />}</Profile.Location>
+            <Profile.Link href={user.website} target="_blank">
               Website
             </Profile.Link>
             <Profile.Date>
@@ -102,16 +127,10 @@ export default function Home({ user, setUser }) {
           </Profile>
         </Section>
         <Section gridArea="content">
-          {Object.values(posts)
-            .sort(
-              (a, b) =>
-                +new Date(a.created?.seconds * 1000) -
-                +new Date(b.created?.seconds * 1000)
-            )
-            .reverse()
-            .map((post) => (
+          {(posts &&
+            posts.map((post) => (
               <Post key={post.id}>
-                <Post.Picture src="https://www.pcfix.lt/wp-content/uploads/2019/10/default-user-image.png" />
+                <Post.Picture src={urls[post.uid]} />
                 <Post.Content>
                   <Post.Name to={`/user/${post.uid}`}>
                     {post.name || <br />}
@@ -119,7 +138,7 @@ export default function Home({ user, setUser }) {
                   <Post.Date>
                     {(post.created && convertDate(post.created)) || <br />}
                   </Post.Date>
-                  {post.text?.split('\n').map((p) => (
+                  {post.text?.split('\n\n').map((p) => (
                     <Post.Text key={p}>{p}</Post.Text>
                   ))}
                   <Post.Likes
@@ -134,7 +153,7 @@ export default function Home({ user, setUser }) {
                   ) : null}
                 </Post.Content>
               </Post>
-            ))}
+            ))) || <Loader />}
         </Section>
       </Separator>
 
@@ -142,6 +161,12 @@ export default function Home({ user, setUser }) {
         <Popup close={() => setEditPopup(false)}>
           <Form onSubmit={editProfileHandler}>
             <Form.Title>Edit your profile</Form.Title>
+
+            <input
+              type="file"
+              onChange={onFileChange}
+              style={{ margin: '20px 0' }}
+            />
 
             {error && (
               <Form.Error close={() => setError(null)}>{error}</Form.Error>
@@ -167,7 +192,9 @@ export default function Home({ user, setUser }) {
               value={website}
               onChange={({ target }) => setWebsite(target.value)}
             />
-            <Button type="submit">Save</Button>
+            <Button type="submit" disabled={!fileUrl && btnDisable}>
+              Save
+            </Button>
           </Form>
         </Popup>
       ) : null}
