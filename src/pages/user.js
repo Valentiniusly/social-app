@@ -48,7 +48,7 @@ export default function User({ authUser }) {
             )
             .map((post) => (
               <Post key={post.id}>
-                <Post.Picture src="https://www.pcfix.lt/wp-content/uploads/2019/10/default-user-image.png" />
+                <Post.Picture src={user.avatar} />
                 <Post.Content noName>
                   <Post.Date>{convertDate(post.created)}</Post.Date>
                   {post.text.split('\n').map((p) => (
