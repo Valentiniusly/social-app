@@ -17,7 +17,7 @@ export const Layout = styled.div`
 export const Container = styled.div`
   position: relative;
   background: white;
-  margin: 0 auto 66px auto;
+  margin: 0 auto 100px auto;
   width: 500px;
   z-index: 100;
   border-radius: 10px;
@@ -29,7 +29,7 @@ export const Container = styled.div`
     width: calc(100% - 20px);
   }
   @media screen and (orientation: landscape) {
-    margin-top: 66px;
+    margin-top: 70px;
   }
   @media screen and (max-width: 767px) {
     margin-top: 20px;

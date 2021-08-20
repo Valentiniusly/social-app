@@ -8,13 +8,15 @@ export const GlobalStyles = createGlobalStyle`
 		font-size: 13px;
 		background-color: #edeef0;
 		-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-		padding: 0 5px;
 	}
-
-	@media (max-width: 767px) {
-		body {
-			padding-top: 10px;
-			padding-bottom: 48px;
+	body {
+		padding: 0 5px;
+		padding-top: 70px;
+		
+		@media (max-width: 767px) {
+			padding-top: 15px;
+			padding-bottom: calc(62px + env(safe-area-inset-bottom));
 		}
 	}
+	
 `;

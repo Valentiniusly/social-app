@@ -122,19 +122,29 @@ export const Text = styled.p`
   }
 `;
 
-export const Likes = styled.p`
+export const Likes = styled.div`
   display: inline-block;
   cursor: pointer;
   vertical-align: middle;
   position: relative;
   padding-left: 1.25em;
   position: absolute;
-  bottom: 0.8em;
+  bottom: 1.2em;
+  font-size: 16px;
 
-  i {
+  div {
     position: absolute;
-    top: -1.5px;
-    left: 0;
+    top: -6px;
+    left: -5px;
+    opacity: 0.6;
+    transition: all 0.2s;
+    :hover {
+      opacity: 1;
+    }
+
+    path {
+      fill: ${MAIN_COLOR};
+    }
   }
   &:hover i {
     opacity: 1;

@@ -1,4 +1,7 @@
 import React from 'react';
+import UseAnimations from 'react-useanimations';
+import heart from 'react-useanimations/lib/heart';
+import { MAIN_COLOR } from '../../constants/colors';
 import {
   Container,
   Picture,
@@ -42,7 +45,13 @@ Post.Text = function PostText({ children, ...restProps }) {
 Post.Likes = function PostLikes({ like, liked, children, ...restProps }) {
   return (
     <Likes {...restProps} onClick={like}>
-      <i className={liked ? 'fas fa-heart' : 'far fa-heart'} />
+      {/* <i className={liked ? 'fas fa-heart' : 'far fa-heart'} /> */}
+      <UseAnimations
+        animation={heart}
+        reverse={liked}
+        strokeColor={MAIN_COLOR}
+        size={30}
+      />
       &nbsp;{children}
     </Likes>
   );

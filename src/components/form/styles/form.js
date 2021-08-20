@@ -7,7 +7,7 @@ export const Container = styled.div`
   background: #fff;
   margin: 0 auto;
   padding: 5px 10px;
-  max-width: 420px;
+  width: 420px;
   user-select: none;
   border-radius: 10px;
   box-sizing: border-box;
@@ -20,7 +20,7 @@ export const Container = styled.div`
     }
   }
   @media (max-width: 440px) {
-    max-width: 96.5%;
+    width: 100%;
   }
 `;
 

@@ -8,11 +8,11 @@ export const Container = styled.header`
   align-items: center;
   position: fixed;
   top: 0;
-  right: 0;
   left: 0;
+  right: 0;
   z-index: 1000;
   width: 100%;
-  height: 48px;
+  height: 60px;
   background-color: #fff;
   font-size: 18px;
   box-shadow: 0 0 20px -15px #000;
@@ -20,8 +20,7 @@ export const Container = styled.header`
   @media (max-width: 767px) {
     bottom: 0;
     padding-bottom: env(safe-area-inset-bottom);
-    top: calc(100% - 60px - env(safe-area-inset-bottom));
-    height: 60px;
+    top: auto;
   }
 `;
 
