@@ -4,7 +4,8 @@ export const Container = styled.div`
   content: '';
   width: 100%;
   max-width: 1050px;
-  margin: 0 auto 0 auto;
+  margin: 0 auto;
+  margin-bottom: 10px;
   display: grid;
   ${({ reverse }) =>
     reverse

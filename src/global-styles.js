@@ -12,10 +12,11 @@ export const GlobalStyles = createGlobalStyle`
 	body {
 		padding: 0 5px;
 		padding-top: 70px;
+		padding-bottom: 10px;
 		
 		@media (max-width: 767px) {
 			padding-top: 15px;
-			padding-bottom: calc(62px + env(safe-area-inset-bottom));
+			padding-bottom: calc(65px + env(safe-area-inset-bottom));
 		}
 	}
 	
