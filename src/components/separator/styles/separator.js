@@ -2,9 +2,9 @@ import styled from 'styled-components/macro';
 
 export const Container = styled.div`
   content: '';
-  width: 80%;
+  width: 100%;
   max-width: 1050px;
-  margin: 0 auto;
+  margin: 66px auto 0 auto;
   display: grid;
   ${({ reverse }) =>
     reverse
@@ -16,11 +16,7 @@ export const Container = styled.div`
 
   @media (max-width: 1200px) {
     grid-template-columns: ${({ reverse }) =>
-      reverse ? '240px auto' : 'auto 240px'};
-  }
-
-  @media (max-width: 1000px) {
-    width: 96.5%;
+      reverse ? '260px auto' : 'auto 260px'};
   }
   @media only screen and (orientation: landscape) {
     width: 100%;
@@ -29,5 +25,6 @@ export const Container = styled.div`
   @media (max-width: 767px) {
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
   }
 `;

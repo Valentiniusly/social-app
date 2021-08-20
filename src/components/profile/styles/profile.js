@@ -12,7 +12,7 @@ export const Container = styled.div`
   border-radius: 10px;
   align-items: center;
   position: sticky;
-  top: 20px;
+  top: 66px;
   box-sizing: border-box;
 
   p {
@@ -30,7 +30,11 @@ export const Container = styled.div`
   }
 
   @media (max-width: 1200px) {
-    font-size: 14px;
+    font-size: 16px;
+  }
+  @media only screen and (orientation: landscape) {
+    position: relative;
+    top: 0;
   }
 `;
 

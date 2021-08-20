@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation, Route } from 'react-router-dom';
+import { useLocation, Redirect } from 'react-router-dom';
 import { Signin, Signup, Home, User } from './pages';
 import { Header } from './components';
 import { IsUserLogged, ProtectedRoute } from './helpers/routes';
@@ -55,9 +55,11 @@ function App() {
         <Home user={user} setUser={setUser} />
       </ProtectedRoute>
 
-      <Route path="/user/:uid">
+      <ProtectedRoute user={user} path="/user/:uid">
         <User authUser={user} />
-      </Route>
+      </ProtectedRoute>
+
+      <Redirect to="/" />
     </>
   );
 }

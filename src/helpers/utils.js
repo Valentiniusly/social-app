@@ -9,13 +9,14 @@ export function convertDate(time) {
   });
 }
 
-export function fetchUserData({ uid }) {
-  return firebase
+export async function fetchUserData({ uid }) {
+  const data = await firebase
     .firestore()
     .collection('users')
     .doc(uid)
     .get()
     .then((doc) => doc.data());
+  return data;
 }
 
 export function fetchAllPosts() {

@@ -130,7 +130,7 @@ export default function Home({ user, setUser }) {
           {(posts &&
             posts.map((post) => (
               <Post key={post.id}>
-                <Post.Picture src={urls[post.uid]} />
+                <Post.Picture src={urls?.[post.uid]} />
                 <Post.Content>
                   <Post.Name to={`/user/${post.uid}`}>
                     {post.name || <br />}

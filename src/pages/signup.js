@@ -53,17 +53,17 @@ export default function Signup() {
           required
         />
         <Form.Input
+          type="email"
           label="Email"
           value={email}
           onChange={({ target }) => setEmail(target.value)}
-          type="email"
           required
         />
         <Form.Input
+          type="password"
           label="Password"
           value={password}
           onChange={({ target }) => setPassword(target.value)}
-          type="password"
           required
         />
 

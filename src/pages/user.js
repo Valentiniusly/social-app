@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Section, Profile, Separator, Post } from '../components';
 import { fetchUserData, convertDate, fetchUserPosts } from '../helpers/utils';
 import { FirebaseContext } from '../context/firebase';
@@ -9,14 +9,21 @@ import { usePosts } from '../hooks';
 export default function User({ authUser }) {
   const { firebase, Firebase } = useContext(FirebaseContext);
   const { uid } = useParams();
+  const history = useHistory();
   const [user, setUser] = useState();
   const [posts, setPosts] = useState();
 
-  useEffect(() => {
-    fetchUserData({ firebase, uid }).then((data) => setUser(data));
-    const reqPosts = fetchUserPosts({ uid });
-    const unsubscribe = usePosts({ reqPosts, setPosts });
-    return () => unsubscribe();
+  useEffect(async () => {
+    const userData = await fetchUserData({ firebase, uid });
+    if (!userData) {
+      history.push('/');
+    } else {
+      setUser(userData);
+      const reqPosts = fetchUserPosts({ uid });
+      const unsubscribe = usePosts({ reqPosts, setPosts });
+      return () => unsubscribe();
+    }
+    return null;
   }, []);
 
   return (

@@ -31,12 +31,14 @@ export default function Signin() {
         {error && <Form.Error close={() => setError('')}>{error}</Form.Error>}
 
         <Form.Input
+          type="email"
           label="Email"
           value={email}
           onChange={({ target }) => setEmail(target.value)}
           required
         />
         <Form.Input
+          type="password"
           label="Password"
           value={password}
           onChange={({ target }) => setPassword(target.value)}

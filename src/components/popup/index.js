@@ -25,7 +25,14 @@ export default function Popup({ close, children, ...restProps }) {
           }
         }}
       >
-        <Container {...restProps}>{children}</Container>
+        <Container {...restProps}>
+          <i
+            onClick={() => close()}
+            className="close fa fa-times"
+            aria-hidden="true"
+          />
+          {children}
+        </Container>
       </Layout>
     </>
   );

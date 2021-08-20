@@ -26,7 +26,7 @@ export const Container = styled.div`
   }
 
   @media (max-width: 1200px) {
-    font-size: 14px;
+    /* font-size: 14px; */
     min-height: 8.7em;
   }
 `;
@@ -65,7 +65,6 @@ export const Content = styled.div`
   padding: 1.25em 1.7em 2.5em 0;
   box-sizing: border-box;
   position: relative;
-  word-break: break-all;
 
   p {
     margin-top: 0.3em;

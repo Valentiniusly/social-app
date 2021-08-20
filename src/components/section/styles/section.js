@@ -2,7 +2,6 @@ import styled from 'styled-components/macro';
 
 export const Container = styled.div`
   background: ${({ bg }) => (bg ? 'white' : null)};
-  margin-bottom: 10px;
   width: ${({ width }) => (width ? `${width}px` : '100%')};
   border-radius: 10px;
   display: flex;
